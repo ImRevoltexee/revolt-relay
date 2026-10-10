@@ -1,26 +1,23 @@
 # revolt-relay
 
-Backend MovieBox untuk **REVOLT-STREAM** — jalan di [Alwaysdata](https://www.alwaysdata.com) (gratis, tanpa kartu kredit, tidak tidur).
+Backend MovieBox untuk **REVOLT-STREAM** — jalan di [Replit](https://replit.com) (gratis, tanpa kartu kredit).
 
-Kenapa ada relay ini: API Android MovieBox memblokir IP egress Cloudflare & Vercel. Relay ini jalan di IP non-Cloudflare/non-Vercel dan meneruskan request yang sudah di-sign.
+Kenapa ada relay ini: API Android MovieBox memblokir IP egress Cloudflare & Vercel. Relay ini jalan di IP lain dan meneruskan request yang sudah di-sign.
 
-## Deploy ke Alwaysdata (dari browser HP, ~10 menit)
+## Deploy ke Replit (dari browser HP, ~5 menit)
 
-1. Daftar di https://www.alwaysdata.com/en/register/ → pilih **Free plan**.
-   Catat nama akunmu — URL public: `https://<nama-akun>.alwaysdata.net`
-2. Login ke https://admin.alwaysdata.com → **Web → Sites → Add a site**:
-   - **Addresses**: `<nama-akun>.alwaysdata.net`
-   - **Type**: Node.js
-   - **Command**: `node server.js`
-   - **Working directory**: `www/revolt-relay`
-   - **Node.js version**: 20.x (atau default)
-3. Upload file: di admin panel buka **Files** (file manager) → masuk ke
-   `www/revolt-relay` → upload `server.js`, `package.json`, dan folder `lib/`
-   (atau upload `revolt-relay.zip` lalu extract di sana).
-4. **Environment** (di pengaturan site) → tambah:
-   `RELAY_SECRET=<string-acak-panjang-bikinanmu>`
-5. Test: buka `https://<nama-akun>.alwaysdata.net/health` → harusnya
-   `{"ok":true,"service":"revolt-relay",...}`
+1. Buka https://replit.com → **Sign up** (pakai GitHub — tanpa kartu kredit)
+2. **Create Repl → Import from GitHub** → paste:
+   `https://github.com/ImRevoltexee/revolt-relay`
+3. Klik tab **Secrets** (ikon gembok) → tambah:
+   - Key: `RELAY_SECRET` — Value: string acak panjang bikinanmu
+4. Klik **Run** (tombol hijau). Tunggu sampai console muncul
+   `[relay] listening on :...`
+5. Test: buka URL Repl-mu (`https://<nama-repl>.<username>.replit.dev/health`)
+   → harusnya `{"ok":true,"service":"revolt-relay",...}`
+
+Catatan: Replit free tidur saat idle — request pertama membangunkan
+(agak lambat), request berikutnya normal. Player sudah handle loading state.
 
 ## API (butuh header `x-relay-secret`)
 
@@ -36,4 +33,4 @@ Kenapa ada relay ini: API Android MovieBox memblokir IP egress Cloudflare & Verc
 ## Catatan
 
 - API MovieBox unofficial (reverse-engineered) — bisa mati kapan saja kalau mereka ubah signing.
-- Jangan commit `.env` / secret ke repo.
+- Jangan commit secret ke repo.
